@@ -1,4 +1,5 @@
 file.json
+main_delete.py
 __pycache__
 models/__pycache__
 engine/__pycache__
