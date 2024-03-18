@@ -113,15 +113,44 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
+    def parse_args(args):
+        """Public method that parses parameters of the arg."""
+        _para_dict = {}
+        args = args.split()
+        _para_args = args[1:]
+        _cls_dict = {}
+        for cls in HBNBCommand.classes.values():
+            if args[0] == cls.__name__:
+                _cls_dict = dict(cls.__dict__)
+        for _args in _para_args:
+            key = _args[:_args.find('=')]
+            value = _args[_args.find('=') + 1:]
+            if "_" in value:
+                value = value.replace("_", " ")
+            if '\"' in value:
+                value = value.replace('\"', '')
+            if key in _cls_dict:
+                if key in HBNBCommand.types:
+                    _para_dict[key] = HBNBCommand.types[key](value)
+                else:
+                    _para_dict[key] = value
+        return _para_dict
+
     def do_create(self, args):
         """ Create an object of any class"""
-        if not args:
+        para_args = HBNBCommand.parse_args(args)
+        args = args.split()
+        if not args[0]:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+        elif args[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
+        new_instance = HBNBCommand.classes[args[0]]()
+
+        for k, v in para_args.items():
+            setattr(new_instance, k, v)
+
         storage.save()
         print(new_instance.id)
         storage.save()
