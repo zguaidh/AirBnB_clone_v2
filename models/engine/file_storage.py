@@ -13,13 +13,14 @@ class FileStorage:
         Returns the list of objects of one type of class"""
         if cls is None:
             return self.__objects
-        cls_name = cls.__name__
-        d = {}
-        for key, val in self.__objects.items():
-            obj_cls = key.split(".")[0]
-            if obj_cls == cls_name:
-                d[key] = val
-        return d
+        else:
+            cls_name = cls.__name__
+            d = {}
+            for key, val in self.__objects.items():
+                obj_cls = key.split(".")[0]
+                if obj_cls == cls_name:
+                    d[key] = val
+            return d
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
