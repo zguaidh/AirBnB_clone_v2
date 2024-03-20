@@ -61,5 +61,3 @@ class Place(BaseModel, Base):
 
             if isinstance(obj, models.amenity.Amenity):
                 self.amenity_ids.append(obj.id)
-            else:
-                return
