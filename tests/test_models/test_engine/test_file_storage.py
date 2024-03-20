@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ Module for testing file storage"""
 import unittest
+import models
 from models.base_model import BaseModel
 from models import storage
 import os
@@ -11,11 +12,18 @@ class test_fileStorage(unittest.TestCase):
 
     def setUp(self):
         """ Set up test environment """
-        del_list = []
-        for key in storage._FileStorage__objects.keys():
-            del_list.append(key)
-        for key in del_list:
-            del storage._FileStorage__objects[key]
+        if (os.getenv('HBNB_TYPE_STORAGE') != 'db'):
+            self.n_state = 0
+            self.n_city = 0
+            del_list = []
+            for key in storage._FileStorage__objects.keys():
+                del_list.append(key)
+            for key in del_list:
+                del storage._FileStorage__objects[key]
+        else:
+            self.n_state = len(storage.all(models.state.State))
+            self.n_city = len(storage.all(models.city.City))
+
 
     def tearDown(self):
         """ Remove storage file at end of tests """
@@ -27,6 +35,8 @@ class test_fileStorage(unittest.TestCase):
     def test_obj_list_empty(self):
         """ __objects is initially empty """
         self.assertEqual(len(storage.all()), 0)
+        self.assertGreaterEqial(len(storage.all()),
+                self.n_city + self.n_state)
 
     def test_new(self):
         """ New object is correctly added to __objects """
@@ -37,7 +47,7 @@ class test_fileStorage(unittest.TestCase):
 
     def test_all(self):
         """ __objects is properly returned """
-        new = BaseModel()
+        new = models.state.State(name="California")
         temp = storage.all()
         self.assertIsInstance(temp, dict)
 
@@ -45,6 +55,12 @@ class test_fileStorage(unittest.TestCase):
         """ File is not created on BaseModel save """
         new = BaseModel()
         self.assertFalse(os.path.exists('file.json'))
+
+    def test_base_model_init(self):
+        """Tests if the file is generated"""
+        if os.getenv('HBNB_TYPE_STORAGE') != 'db':
+            new = models.state.State(name="California")
+            self.assertFalse(os.path.exists('file.json'))
 
     def test_empty(self):
         """ Data is saved to file """
