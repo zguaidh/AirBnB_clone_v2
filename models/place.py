@@ -33,12 +33,12 @@ class Place(BaseModel, Base):
 
     if getenv('HBNB_TYPE_STORAGE') == 'db':
         reviews = relationship('Review', backref=backref('place'))
-        amenities = relationship('Amenity', secondary=place_amenity, viewonly=False)
+        amenities = relationship('Amenity', secondary=place_amenity, back_populates='place_amenities', viewonly=False)
     else:
         @property
         def reviews(self):
             """getter of the relatioship between Place and Review"""
-            all_reviews = models.storage.all(Review)
+            all_reviews = models.storage.all(models.review.Review)
             place_reviews = []
             for key, val in all_reviews.items():
                 if val.place.id == self.id:
@@ -48,7 +48,7 @@ class Place(BaseModel, Base):
         @property
         def amenities(self):
             """getter of the relationship between Place and Amenity"""
-            all_amenities = models.storage.all(Amenity)
+            all_amenities = models.storage.all(models.amenity.Amenity)
             place_amenities = []
             for key, val in all_amenities.items():
                 if val.id in self.amenity_ids:
@@ -58,7 +58,8 @@ class Place(BaseModel, Base):
         @amenities.setter
         def amenities(self, obj):
             """Setter for amenities"""
-            if isinstance(obj, Amenity):
+
+            if isinstance(obj, models.amenity.Amenity):
                 self.amenity_ids.append(obj.id)
             else:
                 return
