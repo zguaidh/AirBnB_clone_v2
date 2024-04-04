@@ -6,7 +6,6 @@ import os
 from fabric.api import *
 from datetime import datetime
 env.hosts = ["34.239.250.176", "52.201.211.251"]
-env.user = "ubuntu"
 
 
 def do_deploy(archive_path):
@@ -26,9 +25,9 @@ def do_deploy(archive_path):
         run("tar -xzf {} -C {} --strip-components=1".format(
             tmp_archive_path, x_archive
         ))
-        run("rm -rf {}".format(tmp_archive_path))
+        run("rm -f {}".format(tmp_archive_path))
         run("rm -rf /data/web_static/current")
-        run(f"ln -sf {x_archive}/ /data/web_static/current")
+        run(f"ln -s {x_archive}/ /data/web_static/current")
     except Exception:
         return False
     return True
