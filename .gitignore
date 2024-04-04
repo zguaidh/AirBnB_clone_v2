@@ -1,6 +1,4 @@
-file.json
-main_delete.py
-./__pycache__
+__pycache__
 models/__pycache__
 engine/__pycache__
 tests/__pycache__
