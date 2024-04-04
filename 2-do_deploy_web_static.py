@@ -26,8 +26,9 @@ def do_deploy(archive_path):
             tmp_archive_path, x_archive
         ))
         run("rm -f {}".format(tmp_archive_path))
-        run("rm -rf /data/web_static/current")
-        run(f"ln -s {x_archive}/ /data/web_static/current")
+        symlink = "/data/web_static/current"
+        run(f"rm -rf {symlink}")
+        run(f"ln -s {x_archive}/ {symlink}")
     except Exception:
         return False
     return True
