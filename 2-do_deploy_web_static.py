@@ -22,9 +22,12 @@ def do_deploy(archive_path):
                 os.path.splitext(basename)[0]
         )
         run(f"mkdir -p {x_archive}")
-        run("tar -xzf {} -C {} --strip-components=1".format(
+        run("tar -xzf {} -C {}".format(
             tmp_archive_path, x_archive
         ))
+        run("mv {} {}".format(
+            x_archive + "/web_static/*", x_archive))
+        run(f"rm -f {x_archive + '/web_static'}")
         run("rm -f {}".format(tmp_archive_path))
         symlink = "/data/web_static/current"
         run(f"rm -rf {symlink}")
