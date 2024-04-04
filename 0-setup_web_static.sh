@@ -9,15 +9,7 @@ fi
 # Create /data/ directory
 mkdir -p /data/web_static/shared /data/web_static/releases/test/
 # Create a test HTML file
-printf '%s\n' "
-<html>
-  <head>
-  </head>
-  <body>
-    Holberton School
-  </body>
-</html
-" > /data/web_static/releases/test/index.html
+echo "Holberton School" > /data/web_static/releases/test/index.html
 
 # Creates a link between files
 rm -rf /data/web_static/current
@@ -27,13 +19,11 @@ ln -sf /data/web_static/releases/test /data/web_static/current
 chown -hR ubuntu:ubuntu /data/
 
 # Configure config file
-host_name=$(hostname)
-printf '%s\n' "
-server {
+printf '%s\n' "server {
 	listen 80;
 	listen [::]:80;
 
-	add_header X-Served-By \"$host_name\";
+	add_header X-Served-By $HOSTNAME;
 
 	server_name mojalefakodisang.tech www.mojalefakodisang.tech;
 	root /var/www/html;
@@ -42,6 +32,10 @@ server {
 	location /hbnb_static {
 		alias /data/web_static/current/;
 		index index.html index.htm 0-index.html;
+	}
+
+	location /redirect_me {
+		return 301 http://github.com/mojalefakodisang;
 	}
 
 	error_page 404 /404.html;
@@ -53,4 +47,4 @@ server {
 }" > /etc/nginx/sites-available/default
 
 # Start NGINX server
-service nginx start
+service nginx restart

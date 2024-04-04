@@ -7,6 +7,13 @@ env.hosts = [
         '52.201.211.251'
         ]
 
+def put_file(file):
+    put(file, ".")
+
+def execute_file(file):
+    sudo(f"chmod +x {file}")
+    sudo(f"./{file}")
+
 def restore_local():
     local("rm -rf versions")
 
