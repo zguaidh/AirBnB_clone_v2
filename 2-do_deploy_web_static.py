@@ -25,13 +25,14 @@ def do_deploy(archive_path):
         run("tar -xzf {} -C {}".format(
             tmp_archive_path, x_archive
         ))
-        run("mv {} {}".format(
+        run("cp -r {} {}".format(
             x_archive + "/web_static/*", x_archive))
-        run(f"rm -f {x_archive + '/web_static'}")
+        run(f"rm -rf {x_archive + '/web_static'}")
         run("rm -f {}".format(tmp_archive_path))
         symlink = "/data/web_static/current"
         run(f"rm -rf {symlink}")
         run(f"ln -s {x_archive}/ {symlink}")
+        print("New version deployed!")
     except Exception:
         return False
     return True
