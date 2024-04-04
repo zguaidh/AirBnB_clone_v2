@@ -20,6 +20,7 @@ def do_pack():
         return f"versions/{path}"
     return None
 
+
 def do_deploy(archive_path):
     """Deploys the web static"""
     if os.path.isfile(archive_path) is False:
