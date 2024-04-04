@@ -1,16 +1,13 @@
 #!/usr/bin/env bash
-# sets up your web servers for the deployment of web_static
-
-# Install NGINX web server
+# sets up your web servers for the deployment of web_static# Insall nginx
 if ! command -v nginx &> /dev/null
 then
 	apt-get update
-	apt-get install nginx
+	apt-get upgrade
+	apt-get install -y nginx
 fi
-
 # Create /data/ directory
 mkdir -p /data/web_static/shared /data/web_static/releases/test/
-
 # Create a test HTML file
 printf '%s\n' "
 <html>
