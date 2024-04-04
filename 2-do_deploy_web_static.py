@@ -35,6 +35,6 @@ def do_deploy(archive_path):
         return False
     symlink = "/data/web_static/current"
     run(f"rm -rf {symlink}")
-    if run(f"ln -s /data/web_static/{name}/ {symlink}").failed is True:
+    if run(f"ln -s /data/web_static/releases/{name}/ {symlink}").failed is True:
         return False
     return True
