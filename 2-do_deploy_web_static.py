@@ -8,6 +8,18 @@ from datetime import datetime
 env.hosts = ["34.239.250.176", "52.201.211.251"]
 
 
+def do_pack():
+    """Packs the static files"""
+    env.hosts = "localhost"
+    now = datetime.now()
+    f_now = now.strftime("%Y%m%d%H%M%S")
+    path = f"versions/web_static_{f_now}.tgz"
+    local("mkdir -p versions")
+    result = local(f"tar -cvzf {path} web_static", capture=True)
+    if not result.return_code:
+        return f"versions/{path}"
+    return None
+
 def do_deploy(archive_path):
     """Deploys the web static"""
     if os.path.isfile(archive_path) is False:
