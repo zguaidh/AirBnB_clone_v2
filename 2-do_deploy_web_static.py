@@ -39,8 +39,11 @@ def do_deploy(archive_path):
     if run("tar -xzf /tmp/{} -C /data/web_static/releases/{}/".
             format(file, name)).failed is True:
         return False
+    if run("rm /tmp/{}".
+            format(file)).failed is True:
+        return False
     if run("mv /data/web_static/releases/{}/web_static/* "
-            "/data/web_static/releases/{}/".format(name, name)).failed is True:
+            "/data/web_static/releases/{}".format(name, name)).failed is True:
         return False
     if run("rm -rf /data/web_static/releases/{}/web_static".
             format(name)).failed is True:
