@@ -24,13 +24,11 @@ def c_is_fun(text):
     return f"C {text}"
 
 
+@app.route('/python', strict_slashes=False)
+@app.route('/python/', strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
-def python_is_fun(text):
-    if "_" in text:
-        text = text.replace("_", " ")
-    if text is None:
-        return "Python is cool"
-    return f"Python {text}"
+def python_is_fun(text="is cool"):
+    return f"Python {text.replace('_', ' ')}"
 
 
 if __name__ == '__main__':
