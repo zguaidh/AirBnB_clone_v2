@@ -28,6 +28,8 @@ def c_is_fun(text):
 def python_is_fun(text):
     if "_" in text:
         text = text.replace("_", " ")
+    if text is None:
+        return "Python is cool"
     return f"Python {text}"
 
 
