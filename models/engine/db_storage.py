@@ -37,6 +37,7 @@ class DBStorage:
         """Fetches all the data from the database
         """
         dic = {}
+        print("Getting data")
         if cls:
             if type(cls) is str:
                 cls = eval(cls)
@@ -51,6 +52,7 @@ class DBStorage:
                 for elem in query:
                     key = '{}.{}'.format(type(elem).__name__, elem.id)
                     dic[key] = elem
+        print(dic)
         return dic
 
     def new(self, obj):
@@ -72,10 +74,11 @@ class DBStorage:
     def reload(self):
         """Reloads the database
         """
+        print("Connected!")
         Base.metadata.create_all(self.__engine)
         sec = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(sec)
-        self.__session = Session()
+        self.__session = Session
 
     def close(self):
         self.__session.close()
