@@ -23,5 +23,5 @@ sudo echo "<html>
 
 sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 sudo chown -hR ubuntu:ubuntu /data/
-sudo sed -i '/listen 80/a location /hbnb_static { alias /data/web_static/current/;}' /etc/nginx/sites-enabled/default
+sudo sed -i '/listen 80/a location /hbnb_static/ { alias /data/web_static/current/;}' /etc/nginx/sites-enabled/default
 sudo service nginx restart
