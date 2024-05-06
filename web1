@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Bash script that uses ssh to connect to  server 1
+ssh ubuntu@3.94.213.7 -i ~/.ssh/id_rsa
