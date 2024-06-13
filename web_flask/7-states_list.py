@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-"""Module that starts a Flask web app
+"""
+Module that starts a Flask web app
 """
 from models import storage
 from models.state import State
